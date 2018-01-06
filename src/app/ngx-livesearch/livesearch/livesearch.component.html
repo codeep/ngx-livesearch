@@ -1,1 +1,6 @@
-<input type="text" placeholder="Search...">
+<input type="text" #searchText placeholder="Search..." [formControl]="searchInput">
+
+<ul *ngIf="searchResult">
+    <li *ngFor="let result of searchResult" [innerHTML]="result.username | highlight : searchText.value">
+    </li>
+</ul>

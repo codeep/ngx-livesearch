@@ -1,12 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ReactiveFormsModule } from '@angular/forms';
 import { LivesearchComponent } from './livesearch/livesearch.component';
+import { RequestService } from './services/request.service';
+import { HttpClientModule } from '@angular/common/http';
+import { HighlightPipe } from './search-highlight.pipe';
+
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule,
+    HttpClientModule
   ],
-  declarations: [LivesearchComponent],
-  exports: [LivesearchComponent]
+  declarations: [LivesearchComponent, HighlightPipe],
+  exports: [LivesearchComponent],
+  providers: [RequestService]
 })
 export class NgxLivesearchModule { }

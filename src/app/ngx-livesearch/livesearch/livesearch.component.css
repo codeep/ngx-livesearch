@@ -1,0 +1,5 @@
+:host ::ng-deep .search-highlight{
+    color: black;
+    font-weight: 700;
+    background: khaki;
+}

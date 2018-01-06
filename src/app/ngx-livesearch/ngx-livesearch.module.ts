@@ -6,6 +6,7 @@ import { LivesearchComponent } from './livesearch/livesearch.component';
   imports: [
     CommonModule
   ],
-  declarations: [LivesearchComponent]
+  declarations: [LivesearchComponent],
+  exports: [LivesearchComponent]
 })
 export class NgxLivesearchModule { }

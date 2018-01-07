@@ -6,7 +6,7 @@ import { Observable } from 'rxjs/Rx';
 export class RequestService {
 
   searchUrl: string;
-  queryUrl: string;
+  searchParam: string;
   constructor(private http: HttpClient) { }
 
   public search(inputObservable: Observable<string>) {
@@ -16,8 +16,10 @@ export class RequestService {
   }
 
   public searchRequest(query) {
-    if(!query) return Observable.of([])
-    return this.http
-        .get(this.searchUrl + '?' + this.queryUrl + "=" +  query)
+    if(!query) return Observable.of([]);
+    let searchParam = this.searchParam;
+    const body = { };
+    body[searchParam] = query;
+    return this.http.post(this.searchUrl, body);
   }
 }

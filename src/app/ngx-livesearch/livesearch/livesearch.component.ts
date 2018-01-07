@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { FormControl } from '@angular/forms';
 
 import { RequestService } from '../services/request.service';
@@ -11,7 +11,9 @@ import { RequestService } from '../services/request.service';
 export class LivesearchComponent implements OnInit {
 
   @Input() searchUrl ?:string;
-  @Input() queryName: string;
+  @Input() searchParam: string;
+
+  
 
   searchResult;
   searchInput: FormControl = new FormControl('');
@@ -19,16 +21,40 @@ export class LivesearchComponent implements OnInit {
 
   ngOnInit() {
     console.log('searchUrl', this.searchUrl);
-    this.requestService.searchUrl = this.searchUrl;
-    this.requestService.queryUrl = this.queryName;
     this.init();
   }
 
   private init() {
+    this.configureSearchService();
     this.requestService.search(this.searchInput.valueChanges)
       .subscribe(results => {
           this.searchResult = results;
       })
+  }
+
+  public keyPressedOnSearchInput (keycode) {
+    if(keycode != 40 || !this.searchResult.length) return
+    let firstSearchItem = document.querySelector('.firstSearchResult') as HTMLBaseElement;
+    firstSearchItem.focus();
+  }
+
+  public keyPressedOnSearchResult (event: KeyboardEvent) {
+    let keycode = event.keyCode;
+    if([38, 40].indexOf(keycode) == -1) return
+    let target = event.currentTarget as HTMLBaseElement;
+    let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
+    if(next && next.tagName == 'LI') {
+      next.focus();
+    }
+  }
+
+  public configureSearchService () {
+    this.requestService.searchUrl = this.searchUrl;
+    this.requestService.searchParam = this.searchParam;
+  }  
+
+  public searchResultSelected(selectedItem) {
+    console.log(selectedItem);
   }
 
 }

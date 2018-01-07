@@ -3,3 +3,21 @@
     font-weight: 700;
     background: khaki;
 }
+
+ul.search-results {
+    list-style:none;
+	position:relative;
+	padding:0
+}
+
+ul.search-results li {
+    text-decoration: none;
+    font-weight: 700;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+ul.search-results li:focus {
+    outline: none;
+    background-color: aqua;
+}

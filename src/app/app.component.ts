@@ -7,4 +7,8 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'livesearch';
+
+  public itemSlected(item) {
+      console.log(item);
+  }
 }

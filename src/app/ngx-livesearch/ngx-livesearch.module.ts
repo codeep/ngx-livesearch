@@ -4,12 +4,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LivesearchComponent } from './livesearch/livesearch.component';
 import { RequestService } from './services/request.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HighlightPipe } from './search-highlight.pipe';
+import { HighlightPipe } from './pipes/search-highlight.pipe';
+import { SearchResultSelectDirective } from './directives//result-select.directive';
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
-import { SearchResultSelectDirective } from './result-select.directive';
+
 
 @NgModule({
   imports: [

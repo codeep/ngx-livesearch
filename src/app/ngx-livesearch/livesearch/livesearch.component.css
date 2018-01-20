@@ -1,15 +1,19 @@
 :host ::ng-deep .search-highlight{
-    color: black;
-    font-weight: 700;
-    background: khaki;
+    color: #1f8dd6;
+    font-weight: normal;
 }
 
 ul.search-results {
     list-style:none;
-	position:relative;
+    position:relative;
+    overflow: auto;
+    height: 400px;
     padding:0;
     display: flex;
     flex-direction: column;
+    min-width: 300px;
+    width: 20%;
+    border: 1px solid #c5c5c5;
 }
 
 ul.search-results li {
@@ -17,10 +21,14 @@ ul.search-results li {
     font-weight: 700;
     padding: 5px 10px;
     cursor: pointer;
-    align-self: baseline;
 }
 
 ul.search-results li:focus {
     outline: none;
-    background-color: aqua;
+    background-color: darkgray;
+}
+
+ul.search-results li:hover:not(:focus) {
+    outline: none;
+    background-color: #eee;
 }

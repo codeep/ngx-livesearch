@@ -6,6 +6,8 @@ import { RequestService } from './services/request.service';
 import { HttpClientModule } from '@angular/common/http';
 import { HighlightPipe } from './pipes/search-highlight.pipe';
 import { SearchResultSelectDirective } from './directives//result-select.directive';
+import { RouterModule } from '@angular/router';
+
 
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
@@ -17,7 +19,8 @@ import 'rxjs/add/operator/filter';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ],
   declarations: [LivesearchComponent, HighlightPipe, SearchResultSelectDirective],
   exports: [LivesearchComponent],

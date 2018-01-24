@@ -1,19 +1,23 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
 :host ::ng-deep .search-highlight{
     color: #1f8dd6;
     font-weight: normal;
 }
 
+
 ul.search-results {
     list-style:none;
     position:relative;
-    overflow: auto;
-    height: 400px;
     padding:0;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    min-width: 300px;
-    width: 20%;
     border: 1px solid #c5c5c5;
+    box-sizing: border-box;
 }
 
 ul.search-results li {
@@ -31,4 +35,39 @@ ul.search-results li:focus {
 ul.search-results li:hover:not(:focus) {
     outline: none;
     background-color: #eee;
+}
+
+.ngx-livesearch-input {
+    box-sizing: border-box;
+    border: 1px solid #bebebe;
+    padding: 9px;
+    font-size: 17px;
+    margin: 0;
+    outline: 0;
+    width: 100%;
+}
+
+.ngx-livesearch-input:focus {
+    box-shadow: 0 0 8px #88d5e9;
+    border: 1px solid #88d5e9;
+}
+
+.livesearch-wrapper {
+    min-width: 300px;
+    width: 25%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.see-all-result-link {
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-size: 17px;
+    border-radius: 0px 0px 5px 5px;
+}
+
+.see-all-result-link a {
+    font-size: 18px;
+    color: darkblue;
+    text-decoration: none;
 }

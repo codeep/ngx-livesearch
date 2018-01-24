@@ -16,6 +16,7 @@ export class LivesearchComponent implements OnInit {
     @Input() localSource: Array<any>;
     @Input() noResultMessage: string;
     @Input() emptyResultMessage: string;
+    @Input() seeAllUrl;
     @Output() onSelect = new EventEmitter();
 
     showEmptyMessage: boolean;

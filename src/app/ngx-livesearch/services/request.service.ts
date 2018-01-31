@@ -7,10 +7,12 @@ export class RequestService {
 
   searchUrl: string;
   searchParam: string;
+  timeToWait;
+  limit: Number;
   constructor(private http: HttpClient) { }
 
   public search(inputObservable: Observable<string>) {
-    return inputObservable.debounceTime(400)
+    return inputObservable.debounceTime(this.timeToWait)
       .distinctUntilChanged()
       .switchMap(query => this.searchRequest(query));
   }
@@ -20,6 +22,7 @@ export class RequestService {
     let searchParam = this.searchParam;
     const body = { };
     body[searchParam] = query;
+    body['limit'] = this.limit;
     return this.http.post(this.searchUrl, body);
   }
 }

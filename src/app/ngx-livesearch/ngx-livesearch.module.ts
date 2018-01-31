@@ -23,7 +23,7 @@ import 'rxjs/add/operator/filter';
     RouterModule
   ],
   declarations: [LivesearchComponent, HighlightPipe, SearchResultSelectDirective],
-  exports: [LivesearchComponent],
+  exports: [LivesearchComponent, SearchResultSelectDirective],
   providers: [RequestService]
 })
 export class NgxLivesearchModule { }

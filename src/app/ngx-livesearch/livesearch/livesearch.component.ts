@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, EventEmitter} from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 
 import { RequestService } from '../services/request.service';
+import { NgForOf } from '@angular/common/src/directives';
 
 @Component({
   selector: 'livesearch',
@@ -11,26 +12,50 @@ import { RequestService } from '../services/request.service';
 })
 export class LivesearchComponent implements OnInit {
 
-    @Input() searchUrl ?:string;
-    @Input() searchParam: string;
+    @Input() searchUrl :string;
     @Input() localSource: Array<any>;
-    @Input() noResultMessage: string;
-    @Input() emptyResultMessage: string;
-    @Input() seeAllUrl;
+
+    @Input() textOptions;
+    @Input() searchOptions;
+
     @Output() onSelect = new EventEmitter();
-
     showEmptyMessage: boolean;
-
+    seeAllParams;
     searchResult = [];
     searchInput: FormControl = new FormControl('');
+    defaultSearchOptions = {
+        searchParam: 'name',
+        interval: 400,
+        limit: 10,
+        seeAllUrl: null,
+        seeAllParams: {},
+        seeAllPassSearchValue: true
+    }
+    
+    defaultTextOptions = {
+        seeAll: 'See all',
+        noResults: 'No results',
+        placeholder: 'Search'
+    };
+
     constructor(private requestService: RequestService) { }
 
     ngOnInit() {
+        this.searchOptions = Object.assign(this.defaultSearchOptions, this.searchOptions);
+        this.textOptions = Object.assign(this.defaultTextOptions, this.textOptions);
         this.init();
     }
 
     private init() {
         this.configureSearchService();
+    }
+
+    public getSeatchParams () {
+        if(this.searchOptions.seeAllPassSearchValue) {
+            let key = this.searchOptions.searchParam;
+            this.searchOptions.seeAllParams[key] = this.searchInput.value;
+        }
+        return this.searchOptions.seeAllParams;
     }
 
     public keyPressedOnSearchInput (event: KeyboardEvent) {
@@ -52,9 +77,11 @@ export class LivesearchComponent implements OnInit {
     }
 
     public configureSearchService () {
+        this.requestService.timeToWait = this.searchOptions.interval;
+        this.requestService.limit = this.searchOptions.limit;
         if(this.searchUrl) {
             this.requestService.searchUrl = this.searchUrl;
-            this.requestService.searchParam = this.searchParam;
+            this.requestService.searchParam = this.searchOptions.searchParam;
             this.requestService.search(this.searchInput.valueChanges)
                 .subscribe(this.searchFinished.bind(this))
         } else {
@@ -73,7 +100,12 @@ export class LivesearchComponent implements OnInit {
     }
 
     public searchFinished (results: Array<any>) {
-        this.searchResult = results;
+        this.searchResult = results.slice(0, this.searchOptions.limit);
         this.showEmptyMessage = results.length || !this.searchInput.value ? false : true;
     }
+
+    public clearSearch () {
+        this.searchInput.setValue('');
+    }
+
 }

@@ -10,6 +10,7 @@ export class SearchResultSelectDirective {
 
     @HostListener("keyup.enter")
     @HostListener("click") elementEntered() {
+
        this.searchElementSelected.emit(this.searchResultSelect);
     }
 

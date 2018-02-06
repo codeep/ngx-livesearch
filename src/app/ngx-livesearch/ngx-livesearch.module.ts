@@ -1,6 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+
 import { LivesearchComponent } from './livesearch/livesearch.component';
 import { RequestService } from './services/request.service';
 import { HttpClientModule } from '@angular/common/http';
@@ -20,7 +23,8 @@ import 'rxjs/add/operator/filter';
     CommonModule,
     ReactiveFormsModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    BrowserAnimationsModule
   ],
   declarations: [LivesearchComponent, HighlightPipe, SearchResultSelectDirective],
   exports: [LivesearchComponent, SearchResultSelectDirective],

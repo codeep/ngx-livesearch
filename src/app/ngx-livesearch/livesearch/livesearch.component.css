@@ -54,6 +54,7 @@ ul.search-results li:hover:not(:focus) {
 }
 
 .livesearch-wrapper {
+    display: inline-block;
     min-width: 300px;
     width: 25%;
     position: relative;
@@ -76,8 +77,8 @@ ul.search-results li:hover:not(:focus) {
 
 .close {
     position: absolute;
-    right: 10px;
-    top: 5px;
+    right: 8px;
+    top: 8px;
     width: 32px;
     height: 32px;
     cursor: pointer;
@@ -91,7 +92,7 @@ ul.search-results li:hover:not(:focus) {
     position: absolute;
     left: 15px;
     content: ' ';
-    height: 33px;
+    height: 25px;
     width: 2px;
     background-color: #333;
   }
@@ -110,3 +111,26 @@ ul.search-results li:hover:not(:focus) {
     padding: 10px;
     font-size: 19px;
   }
+
+.loader {
+    border: 3px solid #e6dfdf;
+    border-radius: 50%;
+    border-top: 3px solid #555;
+    width: 19px;
+    height: 19px;
+    -webkit-animation: spin 1s linear infinite;
+    animation: spin .8s linear infinite;
+    position: absolute;
+    top: 8px;
+    right: 50px;
+}
+
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+  
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

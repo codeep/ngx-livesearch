@@ -1,32 +1,33 @@
 <div class="livesearch-wrapper">
     <div class="livesearch-input-wrapper">
         <input type="text" #searchText [placeholder]="textOptions.placeholder" [formControl]="searchInput"
-                (keydown)="keyPressedOnSearchInput($event)" class="ngx-livesearch-input">
+                (keydown)="keyPressedOnSearchInput($event)" class="ngx-livesearch-input" (focus)="inputFocused()">
         <span  class="close" (click)="clearSearch()"></span>
+        <div *ngIf="loading" class="loader"></div>
     </div>
 
-    <div class="search-result">
+    <div class="search-result" *ngIf="visible">
         <div class="no-result-message" *ngIf="showEmptyMessage">
             {{ textOptions.noResults }}
         </div>
-        <!-- <ul>
-            <ng-template ngFor let-item [ngForOf]="searchResult">
-                        <div [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ rowData: item | highlight : searchText.value}"></div>
-            </ng-template>
-
-        </ul>
-        <ng-content></ng-content> -->
-
-        <ul *ngIf="searchResult.length" class="search-results">
+        <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
             <li *ngFor="let result of searchResult; let first = first" [innerHTML]="result.username || result | highlight : searchText.value"
-                (keydown)="keyPressedOnSearchResult($event)" [class.firstSearchResult]="first" tabindex="-1" [searchResultSelect]="result"
-                (searchElementSelected)="searchResultSelected($event)">
+                (keydown)="keyPressedOnSearchResult($event)" [class.firstSearchResult]="first" [searchResultSelect]="result"
+                (searchElementSelected)="searchResultSelected($event)" >
+            </li>
+            <li *ngIf="searchOptions.seeAllUrl && searchResult.length" (keyup.enter)="navigateToSeeAll()"
+                class="see-all-result-link" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)">
+                    <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
+                        {{ textOptions.seeAll }}  {{ searchText.value }}
+                    </a>
             </li>
         </ul>
-        <div *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link">
-            <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSeatchParams()">
-                {{ textOptions.seeAll }}  {{ searchText.value }}
-            </a>
-        </div>
+
+            <!-- <ul>
+                <ng-template ngFor let-item [ngForOf]="searchResult">
+                            <div [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ rowData: item.username | highlight : searchText.value}"></div>
+                </ng-template>
+            </ul> -->
+       <ng-content></ng-content> 
     </div>
 </div>

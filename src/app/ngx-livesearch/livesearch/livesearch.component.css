@@ -3,7 +3,7 @@
     padding: 0;
 }
 
-:host ::ng-deep .search-highlight{
+:host ::ng-deep .search-highlight {
     color: #1f8dd6;
     font-weight: normal;
 }
@@ -20,19 +20,19 @@ ul.search-results {
     box-sizing: border-box;
 }
 
-ul.search-results li {
+ul.search-results li, :host ::ng-deep li {
     text-decoration: none;
     font-weight: 700;
     padding: 5px 10px;
     cursor: pointer;
 }
 
-ul.search-results li:focus {
+ul.search-results .result-wrapper:focus {
     outline: none;
     background-color: darkgray;
 }
 
-ul.search-results li:hover:not(:focus) {
+ul.search-results .result-wrapper:hover:not(:focus) {
     outline: none;
     background-color: #eee;
 }

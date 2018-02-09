@@ -1,4 +1,6 @@
-import { Component, OnInit, Input, HostListener, Output, EventEmitter, OnDestroy, ElementRef, ContentChild, TemplateRef} from '@angular/core';
+import { Component, OnInit, Input, HostListener, Output, 
+        EventEmitter, OnDestroy, ElementRef, ContentChild, 
+        TemplateRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
@@ -6,6 +8,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 import { RequestService } from '../services/request.service';
 import { Router } from '@angular/router';
+import { SearchResultHighlightDirective } from '../directives/search-result-highlight.directive';
 
 
 @Component({
@@ -27,7 +30,6 @@ import { Router } from '@angular/router';
   ]
 })
 export class LivesearchComponent implements OnInit, OnDestroy {
-
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;
@@ -91,6 +93,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     public keyPressedOnSearchInput (event: KeyboardEvent) {
         if(event.keyCode != 40 || !this.searchResult.length) return
         let firstSearchItem = document.querySelector('.firstSearchResult') as HTMLBaseElement;
+        console.log(firstSearchItem);
         firstSearchItem.focus();
         event.preventDefault();
     }
@@ -100,7 +103,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
         let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
-        if(next && next.tagName == 'LI') {
+        if(next && next.tagName == 'DIV') {
             next.focus();
             event.preventDefault();
         }

@@ -9,6 +9,7 @@ export class RequestService {
     searchUrl: string;
     searchParam: string;
     timeToWait;
+    searchValue: string;
     requestStart = new Subject();
     requestStartObs: Observable<any>;
     limit: Number;
@@ -20,7 +21,8 @@ export class RequestService {
         return inputObservable.debounceTime(this.timeToWait)
         .distinctUntilChanged()
         .switchMap(query => {
-            this.requestStart.next();
+            this.requestStart.next(query);
+            this.searchValue = query;
             return this.searchRequest(query)
         });
     }

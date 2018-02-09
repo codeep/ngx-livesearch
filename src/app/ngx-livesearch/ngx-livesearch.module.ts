@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LivesearchComponent } from './livesearch/livesearch.component';
 import { RequestService } from './services/request.service';
 import { HttpClientModule } from '@angular/common/http';
-import { HighlightPipe } from './pipes/search-highlight.pipe';
 import { SearchResultSelectDirective } from './directives//result-select.directive';
 import { RouterModule } from '@angular/router';
 
@@ -16,6 +15,7 @@ import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import 'rxjs/add/operator/filter';
+import { SearchResultHighlightDirective } from './directives/search-result-highlight.directive';
 
 
 @NgModule({
@@ -26,8 +26,8 @@ import 'rxjs/add/operator/filter';
     RouterModule,
     BrowserAnimationsModule
   ],
-  declarations: [LivesearchComponent, HighlightPipe, SearchResultSelectDirective],
-  exports: [LivesearchComponent, SearchResultSelectDirective],
+  declarations: [LivesearchComponent, SearchResultSelectDirective, SearchResultHighlightDirective],
+  exports: [LivesearchComponent, SearchResultHighlightDirective],
   providers: [RequestService]
 })
 export class NgxLivesearchModule { }

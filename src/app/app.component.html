@@ -7,10 +7,9 @@
 </div>
 
 <livesearch [textOptions]="searchTextOptions" [searchOptions]="searchOptions"
-            (onSelect)="itemSlected($event)" [searchUrl]="searchUrl"
-            [localSource]="names" >
+            [searchUrl]="searchUrl" [localSource]="names" (onSelect)="itemSlected($event)">
 
-             <!-- <ng-template let-item="rowData">
-                <li  [highlight]="item"></li>
-            </ng-template>  -->
+             <ng-template let-item="rowData">
+                <li  [highlightResult]="item.username"></li>
+            </ng-template> 
 </livesearch>

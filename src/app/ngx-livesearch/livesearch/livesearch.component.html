@@ -11,23 +11,19 @@
             {{ textOptions.noResults }}
         </div>
         <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
-            <li *ngFor="let result of searchResult; let first = first" [innerHTML]="result.username || result | highlight : searchText.value"
-                (keydown)="keyPressedOnSearchResult($event)" [class.firstSearchResult]="first" [searchResultSelect]="result"
-                (searchElementSelected)="searchResultSelected($event)" >
-            </li>
-            <li *ngIf="searchOptions.seeAllUrl && searchResult.length" (keyup.enter)="navigateToSeeAll()"
-                class="see-all-result-link" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)">
+            <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
+                <div class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
+                     (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
+                    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ rowData: item}" ></ng-container>
+                </div>
+            </ng-template>
+            <div class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
+                <li *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link" tabindex="-1" >
                     <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
-                        {{ textOptions.seeAll }}  {{ searchText.value }}
+                        {{ textOptions.seeAll }} {{ searchText.value }}
                     </a>
-            </li>
+                </li>
+            </div>
         </ul>
-
-            <!-- <ul>
-                <ng-template ngFor let-item [ngForOf]="searchResult">
-                            <div [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ rowData: item.username | highlight : searchText.value}"></div>
-                </ng-template>
-            </ul> -->
-       <ng-content></ng-content> 
     </div>
 </div>

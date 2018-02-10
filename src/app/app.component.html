@@ -10,6 +10,9 @@
             [searchUrl]="searchUrl" [localSource]="names" (onSelect)="itemSlected($event)">
 
              <ng-template let-item="rowData">
-                <li  [highlightResult]="item.username"></li>
+                <div>
+                    <img src="https://www.w3schools.com/w3css/img_fjords.jpg" alt="">
+                    <div [highlightResult]="item.username"></div>
+                </div>
             </ng-template> 
 </livesearch>

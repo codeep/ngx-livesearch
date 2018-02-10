@@ -3,11 +3,23 @@
     padding: 0;
 }
 
-:host ::ng-deep .search-highlight {
+::ng-deep .search-highlight {
     color: #1f8dd6;
     font-weight: normal;
 }
 
+::ng-deep .result-wrapper img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+::ng-deep .result-wrapper > div {
+    display: flex;
+    align-items: center;
+
+}
 
 ul.search-results {
     list-style:none;
@@ -125,6 +137,8 @@ ul.search-results .result-wrapper:hover:not(:focus) {
     right: 50px;
 }
 
+
+
 @-webkit-keyframes spin {
     0% { -webkit-transform: rotate(0deg); }
     100% { -webkit-transform: rotate(360deg); }
@@ -134,3 +148,5 @@ ul.search-results .result-wrapper:hover:not(:focus) {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
+
+

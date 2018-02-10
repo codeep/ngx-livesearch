@@ -12,18 +12,18 @@
         </div>
         <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
             <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
-                <div class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
+                <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
                      (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
                     <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ rowData: item}" ></ng-container>
-                </div>
+                </li>
             </ng-template>
-            <div class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
-                <li *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link" tabindex="-1" >
+            <li class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
+                <div *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link" tabindex="-1" >
                     <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
                         {{ textOptions.seeAll }} {{ searchText.value }}
                     </a>
-                </li>
-            </div>
+                </div>
+            </li>
         </ul>
     </div>
 </div>

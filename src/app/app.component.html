@@ -9,10 +9,10 @@
 <livesearch [textOptions]="searchTextOptions" [searchOptions]="searchOptions"
             [searchUrl]="searchUrl" [localSource]="names" (onSelect)="itemSlected($event)">
 
-             <ng-template let-item="rowData">
-                <div>
-                    <img src="https://www.w3schools.com/w3css/img_fjords.jpg" alt="">
-                    <div [highlightResult]="item.username"></div>
+             <ng-template let-result>
+                <div style="display:flex">
+                    <img [src]="result.url" alt="" style="height:40px;width:40px;border-radius:50%">
+                    <div [highlightResult]="result.username"></div>
                 </div>
             </ng-template> 
 </livesearch>

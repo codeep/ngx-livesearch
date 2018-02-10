@@ -8,19 +8,6 @@
     font-weight: normal;
 }
 
-::ng-deep .result-wrapper img {
-    width: 30px;
-    height: 30px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-::ng-deep .result-wrapper > div {
-    display: flex;
-    align-items: center;
-
-}
-
 ul.search-results {
     list-style:none;
     position:relative;

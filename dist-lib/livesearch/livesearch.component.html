@@ -1,0 +1,29 @@
+<div class="livesearch-wrapper">
+    <div class="livesearch-input-wrapper">
+        <input type="text" #searchText [placeholder]="textOptions.placeholder" [formControl]="searchInput"
+                (keydown)="keyPressedOnSearchInput($event)" class="ngx-livesearch-input" (focus)="inputFocused()">
+        <span  class="close" (click)="clearSearch()"></span>
+        <div *ngIf="loading" class="loader"></div>
+    </div>
+
+    <div class="search-result" *ngIf="visible">
+        <div class="no-result-message" *ngIf="showEmptyMessage">
+            {{ textOptions.noResults }}
+        </div>
+        <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
+            <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
+                <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
+                     (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
+                    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
+                </li>
+            </ng-template>
+            <li class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
+                <div *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link" tabindex="-1" >
+                    <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
+                        {{ textOptions.seeAll }} {{ searchText.value }}
+                    </a>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>

@@ -17,8 +17,7 @@ const appRoutes: Routes = [
   ],
   imports: [
     BrowserModule,
-    NgxLivesearchModule,
-    RouterModule.forRoot(appRoutes)
+    NgxLivesearchModule
   ],
   providers: [],
   bootstrap: [AppComponent]

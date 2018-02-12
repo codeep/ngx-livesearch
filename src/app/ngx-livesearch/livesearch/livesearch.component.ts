@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, Output, 
         EventEmitter, OnDestroy, ElementRef, ContentChild, 
-        TemplateRef } from '@angular/core';
+        TemplateRef, Optional } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
@@ -67,7 +67,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     }
 
     constructor(private requestService: RequestService,
-                private router: Router,
+                @Optional() private router: Router,
                 private elRef: ElementRef
                ) { }
 
@@ -93,7 +93,6 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     public keyPressedOnSearchInput (event: KeyboardEvent) {
         if(event.keyCode != 40 || !this.searchResult.length) return
         let firstSearchItem = document.querySelector('.firstSearchResult') as HTMLBaseElement;
-        console.log(firstSearchItem);
         firstSearchItem.focus();
         event.preventDefault();
     }

@@ -24,4 +24,10 @@ export class AppComponent {
     public itemSlected(item) {
         console.log(item);
     }
+
+    public passSeeAllUrl () {
+        this.searchOptions = Object.assign({}, this.searchOptions, {
+            seeAllUrl: 'testUrl'
+        })
+    }
 }

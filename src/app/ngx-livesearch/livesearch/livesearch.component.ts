@@ -42,6 +42,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     searchResult = [];
     loading = false;
     visible = true;
+    invalidSearchUrl = false;
     loadingSubscription: Subscription;
     searchInput: FormControl = new FormControl('');
     defaultSearchOptions = {
@@ -76,6 +77,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         this.textOptions = Object.assign(this.defaultTextOptions, this.textOptions);
         this.loadingSubscription = this.requestService.requestStartObs.subscribe(() => this.loading = true);
         this.init();
+        this.isUrlValid();
     }
 
     private init() {
@@ -153,6 +155,14 @@ export class LivesearchComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.loadingSubscription.unsubscribe();
+    }
+
+    isUrlValid () {
+        var regexp = /^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/;
+        if(this.searchUrl) {
+            regexp.test(this.searchUrl) || (this.invalidSearchUrl = true);
+            this.searchUrl.startsWith('www') && (this.searchUrl = 'http://' + this.searchUrl);
+        }
     }
 
 }

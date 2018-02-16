@@ -23,9 +23,10 @@ describe('AppComponent', () => {
         fixture.detectChanges();
     });
 
-    it('should create AppComponent', () => {
-        expect(component).toBeTruthy();
-    });
+    it('shuld be valid  url if exists', () => {
+        const url = liveSearchInstance.searchUrl;
+        url && expect(url).toMatch(/^(http:\/\/www\.|https:\/\/www\.|http:\/\/|https:\/\/)?[a-z0-9]+([\-\.]{1}[a-z0-9]+)*\.[a-z]{2,5}(:[0-9]{1,5})?(\/.*)?$/);
+    })
 
     it('LiveSearch component interval must be passed interval', () => {
         const interval = liveSearchInstance.searchOptions.interval;

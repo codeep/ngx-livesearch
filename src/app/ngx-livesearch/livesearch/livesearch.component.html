@@ -14,7 +14,7 @@
             <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
                 <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
                      (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
-                    <ng-container [ngTemplateOutlet]="template" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
+                    <ng-container [ngTemplateOutlet]="template || defaultTemplate" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
                 </li>
             </ng-template>
             <li class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
@@ -26,4 +26,7 @@
             </li>
         </ul>
     </div>
+    <ng-template #defaultTemplate let-result>
+        <div [highlightResult]="result"></div>
+    </ng-template>
 </div>

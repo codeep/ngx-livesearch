@@ -17,10 +17,11 @@
                     <ng-container [ngTemplateOutlet]="template || defaultTemplate" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
                 </li>
             </ng-template>
-            <li class="result-wrapper" tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
-                <div *ngIf="searchOptions.seeAllUrl && searchResult.length" class="see-all-result-link" tabindex="-1" >
+            <li *ngIf="searchOptions.seeAllUrl && searchResult.length" class="result-wrapper see-all-result-link" style="padding:0"
+                tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
+                <div tabindex="-1" >
                     <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
-                        {{ textOptions.seeAll }} {{ searchText.value }}
+                        {{ textOptions.seeAll }} <span class="search-highlight">{{searchText.value }}</span>
                     </a>
                 </div>
             </li>

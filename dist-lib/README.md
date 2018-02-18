@@ -1,27 +1,24 @@
-# NgxLivesearchProject
+# NgxLivesearch
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.6.1.
+ngxlivesearch is an angular plugin which allows to prepopulate list of anything based on user's input.
 
-## Development server
+![ngxlivesearch](https://user-images.githubusercontent.com/6073745/36353212-00595980-14dd-11e8-8530-d1af260de4af.jpg)
+![ngx2](https://user-images.githubusercontent.com/6073745/36353236-64f00b8c-14dd-11e8-831f-f10f0b889bef.jpg)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
-## Code scaffolding
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Data source
 
-## Build
+Component supports both remote search url and local data.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+## Options
 
-## Running unit tests
+//TODO
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Text options
 
-## Running end-to-end tests
+// TODO
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
+## Contributions
 
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Contributions are very welcome, please open an issue if you have troubles using component or have ideas on how to improve library.

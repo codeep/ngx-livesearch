@@ -104,7 +104,8 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
         let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
-        if(next && next.tagName == 'DIV') {
+        console.log(next);
+        if(next && next.tagName == 'LI') {
             next.focus();
             event.preventDefault();
         }
@@ -129,6 +130,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
 
     public localSourceHandler (query: string) {
         if(!query) return this.searchFinished([])
+        this.requestService.searchValue = query;
         let retVal = this.localSource.filter(data => data.indexOf(query) != -1);
         this.searchFinished(retVal);
     }

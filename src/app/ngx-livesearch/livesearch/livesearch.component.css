@@ -21,9 +21,9 @@ ul.search-results {
 
 ul.search-results li, :host ::ng-deep li {
     text-decoration: none;
-    font-weight: 700;
     padding: 5px 10px;
     cursor: pointer;
+    letter-spacing: 1px;
 }
 
 ul.search-results .result-wrapper:focus {
@@ -61,6 +61,10 @@ ul.search-results .result-wrapper:hover:not(:focus) {
 }
 
 .see-all-result-link {
+    padding: 0;
+}
+
+.see-all-result-link div {
     padding: 10px;
     border: 1px solid #ccc;
     font-size: 17px;

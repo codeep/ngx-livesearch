@@ -11,9 +11,10 @@
             [searchUrl]="searchUrl" [localSource]="names" (onSelect)="itemSlected($event)">
 
              <ng-template let-result>
-                <div style="display:flex">
+                    <div [highlightResult]="result.username"></div>
+                <!-- <div style="display:flex">
                     <img [src]="result.url" alt="" style="height:40px;width:40px;border-radius:50%">
                     <div [highlightResult]="result.username"></div>
-                </div>
+                </div> -->
             </ng-template> 
 </livesearch>

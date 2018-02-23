@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, Output, 
         EventEmitter, OnDestroy, ElementRef, ContentChild, 
-        TemplateRef, Optional } from '@angular/core';
+        TemplateRef, Optional, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
@@ -30,6 +30,7 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
   ]
 })
 export class LivesearchComponent implements OnInit, OnDestroy {
+    @ViewChild('searchText')  searchInputEl: ElementRef;
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;
@@ -40,11 +41,16 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     showEmptyMessage: boolean;
     seeAllParams;
     searchResult = [];
+    searchAllResult = [];
+    limitStart: number = 0;
     loading = false;
+    allItems = false;
     visible = true;
     invalidSearchUrl = false;
     loadingSubscription: Subscription;
+    lazyLoadOffset = 2;
     searchInput: FormControl = new FormControl('');
+    searchMode: string;
     defaultSearchOptions = {
         searchParam: 'name',
         interval: 400,
@@ -103,11 +109,27 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         let keycode = event.keyCode;
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
-        let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
-        console.log(next);
+        event.preventDefault();
+        keycode == 38 ? this.naviagteTop(target) : this.navigateBottom(target);
+    }
+
+    public naviagteTop(target) {
+        let prev = target.previousElementSibling  as HTMLBaseElement;
+        if(prev && prev.tagName == 'LI') {
+            prev.focus();
+        }
+        if(prev === null) {
+            this.searchInputEl.nativeElement.focus();
+        }
+    }
+
+    public navigateBottom(target: HTMLBaseElement) {
+        let next = target.nextElementSibling  as HTMLBaseElement;
         if(next && next.tagName == 'LI') {
             next.focus();
-            event.preventDefault();
+        }
+        if(next === null && !this.allItems) {
+           this.searchMode == 'remote' ? this.remoteSearchHandle() : this.localSearchHandle();
         }
     }
 
@@ -115,6 +137,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         this.requestService.timeToWait = this.searchOptions.interval;
         this.requestService.limit = this.searchOptions.limit;
         if(this.searchUrl) {
+            this.searchMode = 'remote';
             this.requestService.searchUrl = this.searchUrl;
             this.requestService.searchParam = this.searchOptions.searchParam;
             this.requestService.search(this.searchInput.valueChanges)
@@ -137,9 +160,42 @@ export class LivesearchComponent implements OnInit, OnDestroy {
 
     public searchFinished (results: Array<any>) {
         this.loading = false;
+        this.limitStart = 0;
+        this.lazyLoadOffset = 2;
+        this.allItems = false;
+        this.searchAllResult = results;
+        this.searchResult = [];
+        if(this.searchMode == 'remote') {
+            this.searchResult = this.searchAllResult;
+        } else {
+            this.localSearchHandle();
+        }
         this.visible = true;
-        this.searchResult = results.slice(0, this.searchOptions.limit);
         this.showEmptyMessage = results.length || !this.searchInput.value ? false : true;
+    }
+
+    public remoteSearchHandle() {
+        this.loading = true;
+        setTimeout(() => {
+            this.requestService.lazyLoad(this.lazyLoadOffset++).subscribe((result: Array<any>) => {
+                if(result.length < this.searchOptions.limit) {
+                    this.allItems = true;
+                }
+                this.searchResult.push(...result);
+                this.loading = false;
+            })
+        }, 100)
+
+    }
+
+    public localSearchHandle() {
+        if(!this.searchAllResult.length) {
+            this.searchResult = [];
+        }
+        let limitedResult = this.searchAllResult.slice(this.limitStart, this.limitStart + this.searchOptions.limit);
+        this.limitStart += this.searchOptions.limit;
+        if(limitedResult.length < this.searchOptions.limit) this.allItems = false;
+        this.searchResult.push(...limitedResult);
     }
 
     public clearSearch () {

@@ -23,7 +23,7 @@ export class AppComponent {
     };
 
     public itemSlected(item) {
-        alert(item);
+        console.log(item);
     }
 
     public passSeeAllUrl () {

@@ -48,6 +48,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     visible = true;
     invalidSearchUrl = false;
     loadingSubscription: Subscription;
+    searchSubscription:Subscription;
     lazyLoadOffset = 2;
     searchInput: FormControl = new FormControl('');
     searchMode: string;
@@ -69,7 +70,9 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     @HostListener('document:click', ['$event.target'])
     doumentClicked(target) {
         if(!this.elRef.nativeElement.contains(target)) {
+            //this.searchSubscription && this.searchSubscription.unsubscribe();
             this.visible = false;
+            this.loading = false;
         }
     }
 
@@ -105,12 +108,12 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         event.preventDefault();
     }
 
-    public keyPressedOnSearchResult (event: KeyboardEvent) {
+    public keyPressedOnSearchResult (event: KeyboardEvent, index:number) {
         let keycode = event.keyCode;
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
         event.preventDefault();
-        keycode == 38 ? this.naviagteTop(target) : this.navigateBottom(target);
+        keycode == 38 ? this.naviagteTop(target) : this.navigateBottom(target, index);
     }
 
     public naviagteTop(target) {
@@ -123,12 +126,13 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         }
     }
 
-    public navigateBottom(target: HTMLBaseElement) {
+    public navigateBottom(target: HTMLBaseElement, index:number) {
         let next = target.nextElementSibling  as HTMLBaseElement;
         if(next && next.tagName == 'LI') {
             next.focus();
         }
-        if(next === null && !this.allItems) {
+        index = index + 3;
+        if(index == this.searchResult.length && !this.allItems) {
            this.searchMode == 'remote' ? this.remoteSearchHandle() : this.localSearchHandle();
         }
     }
@@ -140,7 +144,7 @@ export class LivesearchComponent implements OnInit, OnDestroy {
             this.searchMode = 'remote';
             this.requestService.searchUrl = this.searchUrl;
             this.requestService.searchParam = this.searchOptions.searchParam;
-            this.requestService.search(this.searchInput.valueChanges)
+            this.searchSubscription =  this.requestService.search(this.searchInput.valueChanges)
                 .subscribe(this.searchFinished.bind(this))
         } else {
             this.searchInput.valueChanges.subscribe(this.localSourceHandler.bind(this));
@@ -175,17 +179,15 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     }
 
     public remoteSearchHandle() {
+        if(this.loading) return
         this.loading = true;
-        setTimeout(() => {
-            this.requestService.lazyLoad(this.lazyLoadOffset++).subscribe((result: Array<any>) => {
-                if(result.length < this.searchOptions.limit) {
-                    this.allItems = true;
-                }
-                this.searchResult.push(...result);
-                this.loading = false;
-            })
-        }, 100)
-
+        this.requestService.lazyLoad(this.lazyLoadOffset++).subscribe((result: Array<any>) => {
+            if(result.length < this.searchOptions.limit) {
+                this.allItems = true;
+            }
+            this.searchResult.push(...result);
+            this.loading = false;
+        })
     }
 
     public localSearchHandle() {

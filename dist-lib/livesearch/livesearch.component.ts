@@ -5,7 +5,7 @@ import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
 
-import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
+import { trigger, style, transition, animate, keyframes, query, stagger, state } from '@angular/animations';
 import { RequestService } from '../services/request.service';
 import { Router } from '@angular/router';
 import { SearchResultHighlightDirective } from '../directives/search-result-highlight.directive';
@@ -17,17 +17,16 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
   styleUrls: ['./livesearch.component.css'],
   animations: [
     trigger('listAnimation', [
-      transition('* => *', [
-        query(':enter', style({ opacity: 0 }), {optional: true}),
-        query(':enter', stagger('30ms', [
-          animate('.2s ease-in', keyframes([
-            style({opacity: 0, transform: 'translateY(-75%)', offset: 0}),
-            style({opacity: 1, transform: 'translateY(0)',     offset: 1.0}),
-          ]))]), {optional: true})
+      transition('* => void', [
+        style({opacity: 1, overflow: 'hidden' }),
+        animate(350, style({ height: 0, opacity: 0 }))
+      ]),
+      transition('void => *', [
+        style({opacity: 0 }),
+        animate(500, style({ height: '*', opacity: 1 }))
       ])
     ])
-
-  ]
+  ],
 })
 export class LivesearchComponent implements OnInit, OnDestroy {
     @Input() searchUrl :string;

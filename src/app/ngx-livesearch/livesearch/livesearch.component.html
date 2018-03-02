@@ -10,7 +10,7 @@
         <div class="no-result-message" *ngIf="showEmptyMessage">
             {{ textOptions.noResults }}
         </div>
-        <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
+        <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]>
             <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
                 <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
                      (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">

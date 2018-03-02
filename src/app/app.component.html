@@ -8,10 +8,10 @@
 </div>
 
 <livesearch [textOptions]="searchTextOptions" [searchOptions]="searchOptions"
-            [searchUrl]="searchUrl" [localSource]="names" (onSelect)="itemSlected($event)">
+            [localSource]="names" (onSelect)="itemSlected($event)">
 
              <ng-template let-result>
-                    <div [highlightResult]="result.username"></div>
+                    <div [highlightResult]="result"></div>
                 <!-- <div style="display:flex">
                     <img [src]="result.url" alt="" style="height:40px;width:40px;border-radius:50%">
                     <div [highlightResult]="result.username"></div>

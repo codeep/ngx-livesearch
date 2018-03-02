@@ -30,5 +30,6 @@ export class AppComponent {
         this.searchOptions = Object.assign({}, this.searchOptions, {
             seeAllUrl: 'testUrl'
         })
+        this.searchOptions.searchParam = 'test';
     }
 }

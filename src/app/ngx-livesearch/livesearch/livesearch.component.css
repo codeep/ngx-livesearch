@@ -28,6 +28,7 @@ ul.search-results li, :host ::ng-deep li {
     letter-spacing: 1px;
 }
 
+
 ul.search-results .result-wrapper:focus {
     outline: none;
     background-color: darkgray;
@@ -63,7 +64,7 @@ ul.search-results .result-wrapper:hover:not(:focus) {
 }
 
 .see-all-result-link {
-    padding: 0;
+    padding: 0!important;
 }
 
 .see-all-result-link div {

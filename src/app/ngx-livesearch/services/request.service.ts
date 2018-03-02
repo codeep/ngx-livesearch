@@ -8,23 +8,23 @@ export class RequestService {
 
     searchUrl: string;
     searchParam: string;
-    timeToWait;
+    timeToWait: number;
     searchValue: string;
     requestStart = new Subject();
     requestStartObs: Observable<any>;
-    limit: Number;
+    limit: number;
     constructor(private http: HttpClient) { 
         this.requestStartObs = this.requestStart.asObservable();
     }
 
     public search(inputObservable: Observable<string>) {
         return inputObservable.debounceTime(this.timeToWait)
-        .distinctUntilChanged()
-        .switchMap(query => {
-            this.requestStart.next(query);
-            this.searchValue = query;
-            return this.searchRequest(query)
-        });
+            .distinctUntilChanged()
+            .switchMap(query => {
+                this.requestStart.next(query);
+                this.searchValue = query;
+                return this.searchRequest(query)
+            });
     }
 
     public searchRequest(query) {

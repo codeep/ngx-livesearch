@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, HostListener, Output, 
         EventEmitter, OnDestroy, ElementRef, ContentChild, 
-        TemplateRef, Optional } from '@angular/core';
+        TemplateRef, Optional, OnChanges, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Rx';
 import { Subscription } from 'rxjs/Subscription';
@@ -28,7 +28,7 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
     ])
   ],
 })
-export class LivesearchComponent implements OnInit, OnDestroy {
+export class LivesearchComponent implements OnInit, OnDestroy, OnChanges {
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;
@@ -79,6 +79,14 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         this.isUrlValid();
     }
 
+    ngOnChanges(changes: SimpleChanges) {
+        if('searchOptions' in changes && !changes.searchOptions.firstChange) {
+            let {searchParam, interval} = changes.searchOptions.currentValue;
+            this.requestService.searchParam = searchParam;
+            this.requestService.timeToWait = interval;
+        }
+    }
+
     private init() {
         this.configureSearchService();
     }
@@ -100,20 +108,19 @@ export class LivesearchComponent implements OnInit, OnDestroy {
 
     public keyPressedOnSearchResult (event: KeyboardEvent) {
         let keycode = event.keyCode;
+        event.preventDefault();
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
         let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
-        console.log(next);
         if(next && next.tagName == 'LI') {
             next.focus();
-            event.preventDefault();
         }
     }
 
     public configureSearchService () {
-        this.requestService.timeToWait = this.searchOptions.interval;
-        this.requestService.limit = this.searchOptions.limit;
         if(this.searchUrl) {
+            this.requestService.timeToWait = this.searchOptions.interval;
+            this.requestService.limit = this.searchOptions.limit;
             this.requestService.searchUrl = this.searchUrl;
             this.requestService.searchParam = this.searchOptions.searchParam;
             this.requestService.search(this.searchInput.valueChanges)

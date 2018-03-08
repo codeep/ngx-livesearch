@@ -11,9 +11,9 @@
             {{ textOptions.noResults }}
         </div>
         <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
-            <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
+            <ng-template ngFor let-item let-first="first" let-i="index" [ngForOf]="searchResult">
                 <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
-                     (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
+                     (keydown)="keyPressedOnSearchResult($event, i)" [searchResultSelect]="item">
                     <ng-container [ngTemplateOutlet]="template || defaultTemplate" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
                 </li>
             </ng-template>

@@ -27,12 +27,26 @@ export class RequestService {
         });
     }
 
-    public searchRequest(query) {
-        if(!query) return Observable.of([]);
-        let searchParam = this.searchParam;
-        const body = { };
-        body[searchParam] = query;
-        body['limit'] = this.limit;
+    public lazyLoad (offset) {
+        let body = this.getRequestBody(offset);
         return this.http.post(this.searchUrl, body);
     }
+
+    public searchRequest(query) {
+        if(!query) return Observable.of([]);
+        let body = this.getRequestBody();
+        return this.http.post(this.searchUrl, body);
+    }
+
+    public getRequestBody (offset = 1) {
+        let limit = this.limit;
+        let body = {
+            offset,
+            limit
+        };
+        let searchParam = this.searchParam;
+        body[searchParam] = this.searchValue;
+        return body;
+    }
+
 }

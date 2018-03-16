@@ -1,15 +1,16 @@
-import { Component, OnInit, Input, HostListener, Output, 
+import { Component, OnInit, Input, HostListener, Output, Renderer2,
         EventEmitter, OnDestroy, ElementRef, ContentChild, 
-        TemplateRef, Optional } from '@angular/core';
-import { FormControl } from '@angular/forms';
+        TemplateRef, Optional, ViewChild, AfterViewInit } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import {Subject} from 'rxjs/Subject';
 import { Subscription } from 'rxjs/Subscription';
+import 'rxjs/add/observable/fromEvent';
+
 
 import { trigger, style, transition, animate, keyframes, query, stagger } from '@angular/animations';
 import { RequestService } from '../services/request.service';
 import { Router } from '@angular/router';
 import { SearchResultHighlightDirective } from '../directives/search-result-highlight.directive';
-
 
 @Component({
   selector: 'livesearch',
@@ -29,7 +30,8 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
 
   ]
 })
-export class LivesearchComponent implements OnInit, OnDestroy {
+export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
+    @ViewChild('searchText')  searchInputEl: ElementRef;
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;
@@ -40,11 +42,19 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     showEmptyMessage: boolean;
     seeAllParams;
     searchResult = [];
+    searchAllResult = [];
+    limitStart: number = 0;
+    searchText: string;
     loading = false;
+    allItems = false;
     visible = true;
     invalidSearchUrl = false;
     loadingSubscription: Subscription;
-    searchInput: FormControl = new FormControl('');
+    inputTextSubscription: Subscription;
+    inputTextObs: Observable<any>;
+    inputTextSubject = new Subject();
+    lazyLoadOffset = 2;
+    searchMode: string;
     defaultSearchOptions = {
         searchParam: 'name',
         interval: 400,
@@ -64,11 +74,13 @@ export class LivesearchComponent implements OnInit, OnDestroy {
     doumentClicked(target) {
         if(!this.elRef.nativeElement.contains(target)) {
             this.visible = false;
+            this.loading = false;
         }
     }
 
     constructor(private requestService: RequestService,
                 @Optional() private router: Router,
+                private renderer: Renderer2,
                 private elRef: ElementRef
                ) { }
 
@@ -76,18 +88,22 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         this.searchOptions = Object.assign(this.defaultSearchOptions, this.searchOptions);
         this.textOptions = Object.assign(this.defaultTextOptions, this.textOptions);
         this.loadingSubscription = this.requestService.requestStartObs.subscribe(() => this.loading = true);
-        this.init();
         this.isUrlValid();
     }
 
-    private init() {
+    ngAfterViewInit() {
+        Observable.fromEvent(this.searchInputEl.nativeElement, 'input')
+            .map((event: KeyboardEvent) => (event.currentTarget as HTMLDivElement).textContent.trim())
+            .do(searchText => this.searchText = searchText)
+            .subscribe(text => this.inputTextSubject.next(text));
+        this.inputTextObs = this.inputTextSubject.asObservable();
         this.configureSearchService();
     }
 
     public getSearchParams () {
         if(this.searchOptions.seeAllPassSearchValue) {
             let key = this.searchOptions.searchParam;
-            this.searchOptions.seeAllParams[key] = this.searchInput.value;
+            this.searchOptions.seeAllParams[key] = this.searchText;
         }
         return this.searchOptions.seeAllParams;
     }
@@ -99,15 +115,32 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         event.preventDefault();
     }
 
-    public keyPressedOnSearchResult (event: KeyboardEvent) {
+    public keyPressedOnSearchResult (event: KeyboardEvent, index:number) {
         let keycode = event.keyCode;
         if([38, 40].indexOf(keycode) == -1) return
         let target = event.currentTarget as HTMLBaseElement;
-        let next = (keycode == 38 ? target.previousElementSibling : target.nextElementSibling) as HTMLBaseElement;
-        console.log(next);
+        event.preventDefault();
+        keycode == 38 ? this.naviagteTop(target) : this.navigateBottom(target, index);
+    }
+
+    public naviagteTop(target) {
+        let prev = target.previousElementSibling  as HTMLBaseElement;
+        if(prev && prev.tagName == 'LI') {
+            prev.focus();
+        }
+        if(prev === null) {
+            this.searchInputEl.nativeElement.focus();
+        }
+    }
+
+    public navigateBottom(target: HTMLBaseElement, index:number) {
+        let next = target.nextElementSibling  as HTMLBaseElement;
         if(next && next.tagName == 'LI') {
             next.focus();
-            event.preventDefault();
+        }
+        index = index + 3;
+        if(index == this.searchResult.length && !this.allItems) {
+           this.searchMode == 'remote' ? this.remoteSearchHandle() : this.localSearchHandle();
         }
     }
 
@@ -115,12 +148,13 @@ export class LivesearchComponent implements OnInit, OnDestroy {
         this.requestService.timeToWait = this.searchOptions.interval;
         this.requestService.limit = this.searchOptions.limit;
         if(this.searchUrl) {
+            this.searchMode = 'remote';
             this.requestService.searchUrl = this.searchUrl;
             this.requestService.searchParam = this.searchOptions.searchParam;
-            this.requestService.search(this.searchInput.valueChanges)
+            this.requestService.search(this.inputTextObs)
                 .subscribe(this.searchFinished.bind(this))
         } else {
-            this.searchInput.valueChanges.subscribe(this.localSourceHandler.bind(this));
+            this.inputTextObs.subscribe(this.localSourceHandler.bind(this));
         }
     }  
 
@@ -137,13 +171,45 @@ export class LivesearchComponent implements OnInit, OnDestroy {
 
     public searchFinished (results: Array<any>) {
         this.loading = false;
+        this.limitStart = 0;
+        this.lazyLoadOffset = 2;
+        this.allItems = false;
+        this.searchAllResult = results;
+        this.searchResult = [];
+        if(this.searchMode == 'remote') {
+            this.searchResult = this.searchAllResult;
+        } else {
+            this.localSearchHandle();
+        }
         this.visible = true;
-        this.searchResult = results.slice(0, this.searchOptions.limit);
-        this.showEmptyMessage = results.length || !this.searchInput.value ? false : true;
+        this.showEmptyMessage = results.length || !this.searchInputEl.nativeElement.textContent ? false : true;
+    }
+
+    public remoteSearchHandle() {
+        if(this.loading) return
+        this.loading = true;
+        this.requestService.lazyLoad(this.lazyLoadOffset++).subscribe((result: Array<any>) => {
+            if(result.length < this.searchOptions.limit) {
+                this.allItems = true;
+            }
+            this.searchResult.push(...result);
+            this.loading = false;
+        })
+    }
+
+    public localSearchHandle() {
+        if(!this.searchAllResult.length) {
+            this.searchResult = [];
+        }
+        let limitedResult = this.searchAllResult.slice(this.limitStart, this.limitStart + this.searchOptions.limit);
+        this.limitStart += this.searchOptions.limit;
+        if(limitedResult.length < this.searchOptions.limit) this.allItems = false;
+        this.searchResult.push(...limitedResult);
     }
 
     public clearSearch () {
-        this.searchInput.setValue('');
+        this.renderer.setProperty(this.searchInputEl.nativeElement, 'innerHTML', '');
+        this.inputTextSubject.next('');
     }
 
     public inputFocused() {

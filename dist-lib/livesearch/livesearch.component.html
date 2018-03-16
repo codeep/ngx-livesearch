@@ -1,7 +1,8 @@
 <div class="livesearch-wrapper">
     <div class="livesearch-input-wrapper">
-        <input type="text" #searchText [placeholder]="textOptions.placeholder" [formControl]="searchInput"
-                (keydown)="keyPressedOnSearchInput($event)" class="ngx-livesearch-input" (focus)="inputFocused()">
+        <div #searchText class="ngx-livesearch-input" contenteditable="true"
+            (focus)="inputFocused()" (keydown)="keyPressedOnSearchInput($event)">
+        </div>
         <span  class="close" (click)="clearSearch()"></span>
         <div *ngIf="loading" class="loader"></div>
     </div>
@@ -11,9 +12,9 @@
             {{ textOptions.noResults }}
         </div>
         <ul *ngIf="searchResult.length" class="search-results" [@listAnimation]="searchResult.length">
-            <ng-template ngFor let-item let-first="first" [ngForOf]="searchResult">
+            <ng-template ngFor let-item let-first="first" let-i="index" [ngForOf]="searchResult">
                 <li class="result-wrapper" [class.firstSearchResult]="first" (searchElementSelected)="searchResultSelected($event)"
-                     (keydown)="keyPressedOnSearchResult($event)" [searchResultSelect]="item">
+                     (keydown)="keyPressedOnSearchResult($event, i)" [searchResultSelect]="item">
                     <ng-container [ngTemplateOutlet]="template || defaultTemplate" [ngTemplateOutletContext]="{ $implicit: item}" ></ng-container>
                 </li>
             </ng-template>

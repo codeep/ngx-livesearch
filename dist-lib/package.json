@@ -1,6 +1,6 @@
 {
   "name": "ngx-livesearch",
-  "version": "0.0.5",
+  "version": "0.0.8",
   "description": "Angular library for completion and search result presentation",
   "main": "index.js",
   "scripts": {

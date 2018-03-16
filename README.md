@@ -13,11 +13,42 @@ Component supports both remote search url and local data.
 
 ## Options
 
-//TODO
+// TODO
 
-## Text options
+searchUrl
+
+localSource
+
+defaultSearchOptions {
+
+        searchParam: 'name',
+
+        interval: 400,
+        
+        limit: 10,
+        
+        seeAllUrl: null,
+        
+        seeAllParams: {},
+        
+        seeAllPassSearchValue: true
+
+}
+
+### Text options
 
 // TODO
+
+textOptions {
+
+        seeAll: 'See all',
+        
+        noResults: 'No results',
+        
+        placeholder: 'Search'
+
+}
+
 
 ## Contributions
 

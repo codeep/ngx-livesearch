@@ -1,1 +1,0 @@
-export * from './ngx-livesearch.module';

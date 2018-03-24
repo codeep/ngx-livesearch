@@ -1,0 +1,121 @@
+	
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="/ngx-livesearch/assets/css/style.css?v=ca51d0c7024e3f3e41bab749bd86f09fd92ff757" media="screen" type="text/css">
+    <link rel="stylesheet" href="/ngx-livesearch/assets/css/print.css" media="print" type="text/css">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+<!-- Begin Jekyll SEO tag v2.4.0 -->
+<title>NgxLivesearch | ngx-livesearch</title>
+<meta name="generator" content="Jekyll v3.6.2" />
+<meta property="og:title" content="NgxLivesearch" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Advanced autocomplete component for Angular" />
+<meta property="og:description" content="Advanced autocomplete component for Angular" />
+<link rel="canonical" href="https://codeep.github.io/ngx-livesearch/" />
+<meta property="og:url" content="https://codeep.github.io/ngx-livesearch/" />
+<meta property="og:site_name" content="ngx-livesearch" />
+<script type="application/ld+json">
+{"name":"ngx-livesearch","description":"Advanced autocomplete component for Angular","@type":"WebSite","url":"https://codeep.github.io/ngx-livesearch/","headline":"NgxLivesearch","@context":"http://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <a href="https://codeep.github.io/ngx-livesearch/">
+          <h1>ngx-livesearch</h1>
+        </a>
+        <h2>Advanced autocomplete component for Angular</h2>
+        
+          <a href="https://github.com/codeep/ngx-livesearch" class="button"><small>View project on</small> GitHub</a>
+        
+        
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1 id="ngxlivesearch">NgxLivesearch</h1>
+
+<p>ngxlivesearch is an angular component which allows to prepopulate list of anything based on user’s input.</p>
+
+<h3 id="demo">Demo</h3>
+
+<p><img src="https://user-images.githubusercontent.com/20105433/37862900-18bfcbc0-2f6e-11e8-927d-2ae1a4f55360.gif" alt="ngx-livesearch-demo" />
+<img src="https://user-images.githubusercontent.com/20105433/37862903-26d5df92-2f6e-11e8-8774-0c2d1885d370.gif" alt="ngx-livesearch-demo-2" /></p>
+
+<h2 id="data-source">Data source</h2>
+
+<p>Component supports both - remote search url and local data.</p>
+
+<h2 id="options">Options</h2>
+
+<p>You can use this component to populate data from remote server or local array.</p>
+
+<p><code class="highlighter-rouge">searchUrl</code> - remote url for fetching data, searched text, limit and offset will be sent automatically.</p>
+
+<p><code class="highlighter-rouge">localSource</code> - an array of objects which plugin will use for populating data.</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nx">defaultSearchOptions</span> <span class="p">{</span>
+
+    <span class="nl">searchParam</span><span class="p">:</span> <span class="s1">'name'</span><span class="p">,</span> <span class="c1">// key name which will be sent to server or will be used to search in localSource. The default value is `name`.</span>
+    
+    <span class="nx">interval</span><span class="p">:</span> <span class="mi">400</span><span class="p">,</span> <span class="c1">// request cancel time, used to improve typing experience. </span>
+    
+    <span class="nx">limit</span><span class="p">:</span> <span class="mi">10</span><span class="p">,</span> <span class="c1">// maximum rows count that can be loaded at once.</span>
+    
+    <span class="nx">seeAllUrl</span><span class="p">:</span> <span class="kc">null</span><span class="p">,</span> <span class="c1">// url of the `See all` link.</span>
+    
+    <span class="nx">seeAllParams</span><span class="p">:</span> <span class="p">{},</span> <span class="c1">// params of `See all` url.</span>
+    
+<span class="p">}</span>
+</code></pre></div></div>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="nx">textOptions</span> <span class="p">{</span>
+
+    <span class="nl">seeAll</span><span class="p">:</span> <span class="s1">'See all'</span><span class="p">,</span>
+    
+    <span class="nx">noResults</span><span class="p">:</span> <span class="s1">'No results'</span><span class="p">,</span>
+    
+    <span class="nx">placeholder</span><span class="p">:</span> <span class="s1">'Search'</span>
+    
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="events">Events</h2>
+<p>//To Do</p>
+
+<h2 id="contributions">Contributions</h2>
+
+<p>Contributions are very welcome, please open an issue if you have troubles using component or have ideas on how to improve library.</p>
+
+        </section>
+
+        <aside id="sidebar">
+          
+
+          
+            <p class="repo-owner"><a href="https://github.com/codeep/ngx-livesearch">ngx-livesearch</a> is maintained by <a href="https://github.com/codeep">codeep</a>.</p>
+          
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+    
+  </body>
+</html>

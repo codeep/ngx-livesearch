@@ -1,23 +1,59 @@
 # NgxLivesearch
 
-ngxlivesearch is an angular plugin which allows to prepopulate list of anything based on user's input.
+ngxlivesearch is an angular component which allows to prepopulate list of anything based on user's input.
 
-![ngxlivesearch](https://user-images.githubusercontent.com/6073745/36353212-00595980-14dd-11e8-8530-d1af260de4af.jpg)
-![ngx2](https://user-images.githubusercontent.com/6073745/36353236-64f00b8c-14dd-11e8-831f-f10f0b889bef.jpg)
+### Demo
+
+![ngx-livesearch-demo](https://user-images.githubusercontent.com/20105433/37862900-18bfcbc0-2f6e-11e8-927d-2ae1a4f55360.gif)
+![ngx-livesearch-demo-2](https://user-images.githubusercontent.com/20105433/37862903-26d5df92-2f6e-11e8-8774-0c2d1885d370.gif)
 
 
 
 ## Data source
 
-Component supports both remote search url and local data.
+Component supports both - remote search url and local data.
 
 ## Options
 
-//TODO
+You can use this component to populate data from remote server or local array. 
 
-## Text options
+`searchUrl` - remote url for fetching data, searched text, limit and offset will be sent automatically.
 
-// TODO
+`localSource` - an array of objects which plugin will use for populating data.
+
+```javascript
+
+defaultSearchOptions {
+
+    searchParam: 'name', // key name which will be sent to server or will be used to search in localSource. The default value is `name`.
+    
+    interval: 400, // request cancel time, used to improve typing experience. 
+    
+    limit: 10, // maximum rows count that can be loaded at once.
+    
+    seeAllUrl: null, // url of the `See all` link.
+    
+    seeAllParams: {}, // params of `See all` url.
+    
+}
+```
+
+```javascript
+
+textOptions {
+
+    seeAll: 'See all',
+    
+    noResults: 'No results',
+    
+    placeholder: 'Search'
+    
+}
+```
+
+## Events
+//To Do
+
 
 ## Contributions
 

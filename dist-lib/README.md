@@ -9,15 +9,47 @@ ngxlivesearch is an angular plugin which allows to prepopulate list of anything 
 
 ## Data source
 
-Component supports both remote search url and local data.
+Component supports both - remote search url and local data.
 
 ## Options
 
-//TODO
+You can use this component for populate data from remote server or local array. 
 
-## Text options
+`searchUrl` - remote url for fetching data, searched text, limit and offset would be send automatically.
 
-// TODO
+`localSource` - an array of objects which plugin will use for populating data.
+
+```javascript
+
+defaultSearchOptions {
+
+    searchParam: 'name', // key name which will be send to server or used to search in localSource, default value is `name`.
+    
+    interval: 400, // request cancel time, used to improve typing experience. 
+    
+    limit: 10, // how much rows should be loaded at once.
+    
+    seeAllUrl: null, // url of see all link.
+    
+    seeAllParams: {}, // params of see all url.
+    
+    seeAllPassSearchValue: true // whether to send query text to see all url.
+    
+}
+```
+
+```javascript
+
+textOptions {
+
+    seeAll: 'See all',
+    
+    noResults: 'No results',
+    
+    placeholder: 'Search'
+    
+}
+```
 
 ## Contributions
 

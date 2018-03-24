@@ -42,7 +42,7 @@ describe('LivesearchComponent', () => {
         let sourceArray = ["Aaran", "Aaren", "Aarez", "Aarman", "Aaron", "Aaron-James", "Aarron", "Aaryan", "Aaryn", "Aayan", "Aazaan"];
         component.localSource = sourceArray;
         let matchingResults = sourceArray.filter((source) => source.indexOf(searchText) != -1);
-        component.searchInput.setValue(searchText);
+        component.inputTextSubject.next(searchText);
         requestService.searchValue = searchText;
         fixture.detectChanges();
         let resultsEl = fixture.debugElement.query(By.css('.search-results'));

@@ -17,6 +17,8 @@ ul.search-results {
     flex-direction: column;
     border: 1px solid #c5c5c5;
     box-sizing: border-box;
+    overflow: auto;
+    max-height: 400px;
 }
 
 ul.search-results li, :host ::ng-deep li {
@@ -28,7 +30,7 @@ ul.search-results li, :host ::ng-deep li {
 
 ul.search-results .result-wrapper:focus {
     outline: none;
-    background-color: darkgray;
+    background-color: #eee;
 }
 
 ul.search-results .result-wrapper:hover:not(:focus) {

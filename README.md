@@ -15,9 +15,9 @@ Component supports both - remote search url and local data.
 
 ## Options
 
-You can use this component for populate data from remote server or local array. 
+You can use this component to populate data from remote server or local array. 
 
-`searchUrl` - remote url for fetching data, searched text, limit and offset would be send automatically.
+`searchUrl` - remote url for fetching data, searched text, limit and offset will be sent automatically.
 
 `localSource` - an array of objects which plugin will use for populating data.
 
@@ -25,17 +25,15 @@ You can use this component for populate data from remote server or local array.
 
 defaultSearchOptions {
 
-    searchParam: 'name', // key name which will be send to server or used to search in localSource, default value is `name`.
+    searchParam: 'name', // key name which will be sent to server or will be used to search in localSource. The default value is `name`.
     
     interval: 400, // request cancel time, used to improve typing experience. 
     
-    limit: 10, // how much rows should be loaded at once.
+    limit: 10, // maximum rows count that can be loaded at once.
     
-    seeAllUrl: null, // url of see all link.
+    seeAllUrl: null, // url of the `See all` link.
     
-    seeAllParams: {}, // params of see all url.
-    
-    seeAllPassSearchValue: true // whether to send query text to see all url.
+    seeAllParams: {}, // params of `See all` url.
     
 }
 ```
@@ -52,6 +50,9 @@ textOptions {
     
 }
 ```
+
+```Events
+//To Do
 
 ## Contributions
 

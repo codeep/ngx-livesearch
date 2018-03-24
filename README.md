@@ -2,8 +2,10 @@
 
 ngxlivesearch is an angular plugin which allows to prepopulate list of anything based on user's input.
 
-![ngxlivesearch](https://user-images.githubusercontent.com/6073745/36353212-00595980-14dd-11e8-8530-d1af260de4af.jpg)
-![ngx2](https://user-images.githubusercontent.com/6073745/36353236-64f00b8c-14dd-11e8-831f-f10f0b889bef.jpg)
+### Demo
+
+![ngx-livesearch-demo](https://user-images.githubusercontent.com/20105433/37862755-aaeb7e16-2f6b-11e8-9920-16573da2e5a1.gif)
+![ngx-livesearch-demo-2](https://user-images.githubusercontent.com/20105433/37862786-491525f6-2f6c-11e8-942c-5c030e65a0ae.gif)
 
 
 

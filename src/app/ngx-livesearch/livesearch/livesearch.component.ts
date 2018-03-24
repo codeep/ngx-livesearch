@@ -32,7 +32,7 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
   ]
 })
 export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
-    @ViewChild('searchText')  searchInputEl: ElementRef;
+    @ViewChild('searchTextEl')  searchInputEl: ElementRef;
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;

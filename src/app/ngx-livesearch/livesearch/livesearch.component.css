@@ -6,6 +6,7 @@
 ::ng-deep .search-highlight {
     color: #1f8dd6;
     font-weight: normal;
+    text-transform: capitalize;
 }
 
 ul.search-results {

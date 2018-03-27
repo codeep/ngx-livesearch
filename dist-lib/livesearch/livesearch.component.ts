@@ -32,7 +32,7 @@ import { SearchResultHighlightDirective } from '../directives/search-result-high
   ]
 })
 export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
-    @ViewChild('searchText')  searchInputEl: ElementRef;
+    @ViewChild('searchTextEl')  searchInputEl: ElementRef;
     @Input() searchUrl :string;
     @Input() localSource: Array<any>;
     @ContentChild(TemplateRef) template: TemplateRef<any>;
@@ -57,7 +57,7 @@ export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
     lazyLoadOffset = 2;
     searchMode: string;
     defaultSearchOptions = {
-        searchParam: 'name',
+        searchParam: 'username',
         interval: 400,
         limit: 10,
         seeAllUrl: null,
@@ -161,6 +161,9 @@ export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
 
     public searchResultSelected(selectedItem) {
         this.onSelect.emit(selectedItem);
+        this.renderer.setProperty(this.searchInputEl.nativeElement, 'innerHTML', selectedItem[this.searchOptions.searchParam]);
+        this.visible = false;
+
     }
 
     public localSourceHandler (query: string) {
@@ -174,7 +177,7 @@ export class LivesearchComponent implements OnInit, OnDestroy, AfterViewInit {
         this.loading = false;
         this.limitStart = 0;
         this.lazyLoadOffset = 2;
-        this.allItems = false;
+        this.allItems = results.length < this.searchOptions.limit ? true : false;
         this.searchAllResult = results;
         this.searchResult = [];
         if(this.searchMode == 'remote') {

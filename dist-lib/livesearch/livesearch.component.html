@@ -1,8 +1,8 @@
 <div class="livesearch-wrapper">
     <div class="livesearch-input-wrapper">
-        <div #searchText class="ngx-livesearch-input" contenteditable="true"
-            (focus)="inputFocused()" (keydown)="keyPressedOnSearchInput($event)">
-        </div>
+        <div #searchTextEl class="ngx-livesearch-input" contenteditable="true" 
+             [attr.placeholder]="textOptions.placeholder" (focus)="inputFocused()" 
+             (keydown)="keyPressedOnSearchInput($event)"></div>
         <span  class="close" (click)="clearSearch()"></span>
         <div *ngIf="loading" class="loader"></div>
     </div>
@@ -22,7 +22,7 @@
                 tabindex="-1" (keydown)="keyPressedOnSearchResult($event)" (keyup.enter)="navigateToSeeAll()">
                 <div tabindex="-1" >
                     <a [routerLink]="[searchOptions.seeAllUrl]" [queryParams]="getSearchParams()">
-                        {{ textOptions.seeAll }} <span class="search-highlight">{{searchText.value }}</span>
+                        {{ textOptions.seeAll }} <span class="search-highlight">{{ searchText }}</span>
                     </a>
                 </div>
             </li>

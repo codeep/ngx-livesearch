@@ -50,6 +50,13 @@ ul.search-results .result-wrapper:hover:not(:focus) {
     padding-right: 50px;
 }
 
+.ngx-livesearch-input:empty:before {
+    content: attr(placeholder);
+    display: block;
+    opacity: 0.6;
+}
+
+
 .ngx-livesearch-input:focus {
     box-shadow: 0 0 8px #88d5e9;
     border: 1px solid #88d5e9;

@@ -1,8 +1,8 @@
 <div class="livesearch-wrapper">
     <div class="livesearch-input-wrapper">
-        <div #searchTextEl class="ngx-livesearch-input" contenteditable="true"
-            (focus)="inputFocused()" (keydown)="keyPressedOnSearchInput($event)">
-        </div>
+        <div #searchTextEl class="ngx-livesearch-input" contenteditable="true" 
+             [attr.placeholder]="textOptions.placeholder" (focus)="inputFocused()" 
+             (keydown)="keyPressedOnSearchInput($event)"></div>
         <span  class="close" (click)="clearSearch()"></span>
         <div *ngIf="loading" class="loader"></div>
     </div>

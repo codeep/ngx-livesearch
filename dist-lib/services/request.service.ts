@@ -42,10 +42,9 @@ export class RequestService {
         let limit = this.limit;
         let body = {
             offset,
-            limit
+            limit,
+            [this.searchParam] : this.searchValue
         };
-        let searchParam = this.searchParam;
-        body[searchParam] = this.searchValue;
         return body;
     }
 

@@ -52,7 +52,7 @@ textOptions {
 ```
 
 ## Events
-//To Do
+`onSelect` - returns selected element.
 
 
 ## Contributions
